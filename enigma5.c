@@ -1,4 +1,4 @@
-/* Anigma machine */
+/* Enigma machine */
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
