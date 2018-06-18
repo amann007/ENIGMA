@@ -51,7 +51,7 @@ char *my_message=NULL;
 //FUNCTIONS:
 
 void print_message(char *message){
-  printf("\nCURRENT MESSAGE IS: \n \"%s\" \n\n",message);
+  printf("\nCURRENT MESSAGE IS: \n\n\"%s\"\n\n",message);
 }
 
 
@@ -312,18 +312,7 @@ void translate_from_anigma(char *message)
 
 }
 
-int menu(void){
 
-  int choice=0;
-  printf("\n**************************************************************");
-  printf("\n PLEASE CHOOSE ONE OFTHE FOLLOWING OPERATIONS:\n");
-  printf("\n (1) PRINT STORED MESSAGE. \n (2) CYPHER DECYPHER MESSAGE (code required).  \n (3) READ NEW MESSAGE BY HAND. \n (4) READ NEW MESSAGE BY FILE.\n (5) UPLOAD DEFAULT MESAGE.\n (6) QUIT.");
-  printf("\n**************************************************************");
-  printf("\n insert command number here:");
-  scanf("%d",&choice);
-  return choice;
-
-}
 
 void reset_message(int print){
    if (print==1){
@@ -336,11 +325,12 @@ void reset_message(int print){
 
 void get_new_message(void){
   static char *str;
-  int size;
+  int size=0,i;
 
   printf("\nGET NEW MESSAGE:**********************************************");
   printf("\nPLEASE ENTER THE MAX SIZE OF THE NEW MESSAGE:");
   scanf("%d",&size);
+  getchar();
   if (size<=0){
       printf("\nman...size cannot be <=0. returning to the menu.");
       return;
@@ -348,15 +338,59 @@ void get_new_message(void){
   str=malloc((size+1)*sizeof(char));
   printf("\nWRITE NEW MESSAGE HERE:");
   fgets(str,(size+1),stdin);
-  str[size]='\0';
-
+  for (i=0;i<size;i++){
+      if (str[i]=='\n'){
+           str[i]='\0';
+      }
+  }
+  
+  
   free(my_message); //free previous message
 
   my_message=str;   //insert new message
   printf("\n-> NEW MESSAGE WAS WRITTEN <see menu option 1>");
 }
 
+void get_new_file_message(void){
+  char name[100];
+  static char *message;
+  int size=100,file_size=0;
+  
+  printf("\nGET NEW FILE MESSAGE:**********************************************");
+  printf("\nPLEASE ENTER THE MAX SIZE OF THE NEW MESSAGE:");
+  scanf("%d",&file_size);
+  getchar();
+  if (file_size<=0){
+      printf("\nman...size cannot be <=0. returning to the menu.");
+      return;
+  };
+  
+  message=malloc((file_size+1)*sizeof(char));
+  printf("\nPLEASE ENTER THE FILE NAME:");
+  fgets(name,(size+1),stdin);
+  //str[size]='\0';
+  
 
+  //TODO- read file and enter it to message
+  free(my_message); //free previous message
+
+  my_message=message;   //insert new message
+  printf("\n-> NEW MESSAGE WAS WRITTEN <see menu option 1>");
+}
+
+
+int menu(void){
+
+  int choice=0;
+  printf("\n**************************************************************");
+  printf("\n PLEASE CHOOSE ONE OFTHE FOLLOWING OPERATIONS:\n");
+  printf("\n (1) PRINT STORED MESSAGE. \n (2) CYPHER DECYPHER MESSAGE (code required).  \n (3) READ NEW MESSAGE BY HAND. \n (4) READ NEW MESSAGE BY FILE.\n (5) UPLOAD DEFAULT MESAGE.\n (6) QUIT.");
+  printf("\n**************************************************************");
+  printf("\n insert command number here:");
+  scanf("%d",&choice);
+  return choice;
+
+}
 
 
 
